@@ -1,4 +1,4 @@
 interview-problems-cplusplus
 ============================
 
-Interview problems - data structures - algorithm etc. implemented in C++
+Interview problems - data structures - algorithms etc. implemented in C++
