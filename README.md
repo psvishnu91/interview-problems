@@ -1,4 +1,4 @@
 interview-problems
 ==================
 
-Interview problems - data structures - algorithms etc. implemented in C++ and python.
+Interview problems - data structures - algorithms etc. implemented mostly in python.
