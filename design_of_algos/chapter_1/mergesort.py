@@ -10,7 +10,6 @@ Sample output::
     Input list:                     8 2 1 3 5 9 8
     Sorted list:                    1 2 3 5 8 8 9
 """
-from operator import ilshift
 from typing import List
 from typing import Tuple
 import math
