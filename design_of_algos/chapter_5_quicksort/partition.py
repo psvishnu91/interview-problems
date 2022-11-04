@@ -19,7 +19,6 @@ Sample valid output 2::
 """
 from typing import List
 from typing import Optional
-import math
 import sys
 import logging
 
@@ -35,19 +34,24 @@ def _parse_int_array(lst: List[str]) -> List[int]:
     return [int(n) for n in lst[1:]]
 
 
-def partition_inplace(lst: List[int], beg: int = 0, end: Optional[int] = None) -> None:
+def partition_inplace(lst: List[int], beg: int = 0, end: Optional[int] = None) -> int:
+    """
+    Partitions array according quicksort partition function in place
+    and returns the index of the pivot after the partition.
+    """
     if end is None:
         end = len(lst) - 1
     if beg == end:
-        return
+        return beg
     pvt = lst[beg]
+    # Points to the first number greater than the pivot
     edge = beg
-    i = beg + 1
     for i in range(beg+1, end+1):
         if lst[i] <= pvt:
             edge += 1
             swap(lst, edge, i)
     swap(lst, beg, edge)
+    return edge
             
 
 def swap(lst: List[int], i: int, j: int) -> None:
