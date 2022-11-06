@@ -4,3 +4,4 @@
 .vscode/
 **/*.code-workspace
 **/*.ipynb_checkpoints
+leetcode/rotten_oranges/*
