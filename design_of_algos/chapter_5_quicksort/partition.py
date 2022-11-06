@@ -52,12 +52,10 @@ def partition_inplace(lst: List[int], beg: int = 0, end: Optional[int] = None) -
             swap(lst, edge, i)
     swap(lst, beg, edge)
     return edge
-            
+
 
 def swap(lst: List[int], i: int, j: int) -> None:
-    t = lst[i]
-    lst[i] = lst[j]
-    lst[j] = t
+    lst[i], lst[j] = lst[j], lst[i]
 
 
 if __name__ == "__main__":
