@@ -1,4 +1,6 @@
-"""https://leetcode.com/problems/valid-parentheses/
+"""20. Valid Parentheses
+
+https://leetcode.com/problems/valid-parentheses/
 
 "Hashmap = {'(': ')', '{': '}', '[': ']'}. Iterate over chars of str, 
 if in hashmap they are lt parens, add to stk, c if is map[stk.pop()]. 
