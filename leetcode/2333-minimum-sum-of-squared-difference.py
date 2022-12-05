@@ -2,16 +2,22 @@
 
 https://leetcode.com/problems/minimum-sum-of-squared-difference/
 
-Brute force
-===========
-- Compute sum of squared difference of all elements with no change
+Algorithm
+=========
 - begin with i=0
-    each time upto 2(k1+1)*2(k2+1) options (2(k+1) because we can plus or minus or do nothing
-    min_sum = min(
-        (n1_mod-n2_mod)**2 + min_sqrd(i+1,k1) 
-        for n1_mod, n2_mod in options(n1, n2, k1, k2) 
-    )
-    cache[(i, k1, k2)] = min_sum
+    each time upto (k1+1)*(k2+1) options ((k+1) because we can also do nothing)
+        (we don't have to increase the bigger number or decrease smaller number)
+    We don't actually search all of k1+1 and k2+1 numbers, we cleaverly cutoff
+    search space, see `_modifications` for details.
+    
+    def min_sqrd(i):
+        if i==n: return 0
+        if in cache: return cache[(i, k1, k2)]
+        min_sum = min(
+            (new_n1-new_n2)**2 + min_sqrd(i+1,new_k1, new_k2) 
+            for new_n1, new_n2, new_k1, new_k2 in options(n1, n2, k1, k2) 
+        )
+        cache[(i, k1, k2)] = min_sum
 
 T- O(n^(k1*k2))
 M- O(n * k1 * k2)    
