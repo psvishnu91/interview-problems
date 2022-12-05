@@ -6,8 +6,7 @@ Brute force
 ===========
 - Compute sum of squared difference of all elements with no change
 - begin with i=0
-    each time upto 4 options
-    [make no change to either, make change to nums1[i] in dirn of nums2[i], same for nums2[i], both change towards each other]
+    each time upto 2(k1+1)*2(k2+1) options (2(k+1) because we can plus or minus or do nothing
     min_sum = min(
         (n1_mod-n2_mod)**2 + min_sqrd(i+1,k1) 
         for n1_mod, n2_mod in options(n1, n2, k1, k2) 
