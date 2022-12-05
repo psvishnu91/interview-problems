@@ -7,8 +7,8 @@ Algorithm
 - begin with i=0
     each time upto (k1+1)*(k2+1) options ((k+1) because we can also do nothing)
         (we don't have to increase the bigger number or decrease smaller number)
-    We don't actually search all of k1+1 and k2+1 numbers, we cleverly cutoff
-    search space, see :func:`_modifications` for details.
+    We don't actually search all of k1+1 and k2+1 numbers, we cleaverly cutoff
+    search space, see `_modifications` for details.
     
     def min_sqrd(i):
         if i==n: return 0
@@ -42,13 +42,13 @@ def _min_sum_sqrd_rec(nums1, nums2, k1, k2, i, cache):
         return cache[i][k1][k2]
     min_sqrd = min(
         (
-            _sqrd_dist(n1_mod, n2_mod)
+            _sqrd_dist(new_n1, new_n2)
             + _min_sum_sqrd_rec(
-                nums1, nums2, k1=k1_mod, k2=k2_mod,
+                nums1, nums2, k1=new_k1, k2=new_k2,
                 i=i+1, cache=cache
             )
         )
-        for n1_mod, n2_mod, k1_mod, k2_mod in _modifications(
+        for new_n1, new_n2, new_k1, new_k2 in _modifications(
             n1=nums1[i], n2=nums2[i], k1=k1, k2=k2,
         )
     )
