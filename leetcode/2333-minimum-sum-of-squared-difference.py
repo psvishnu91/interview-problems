@@ -7,8 +7,8 @@ Algorithm
 - begin with i=0
     each time upto (k1+1)*(k2+1) options ((k+1) because we can also do nothing)
         (we don't have to increase the bigger number or decrease smaller number)
-    We don't actually search all of k1+1 and k2+1 numbers, we cleaverly cutoff
-    search space, see `_modifications` for details.
+    We don't actually search all of k1+1 and k2+1 numbers, we cleverly cutoff
+    search space, see :func:`_modifications` for details.
     
     def min_sqrd(i):
         if i==n: return 0
