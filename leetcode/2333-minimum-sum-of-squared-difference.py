@@ -4,23 +4,52 @@ https://leetcode.com/problems/minimum-sum-of-squared-difference/
 
 Algorithm
 =========
-- begin with i=0
-    each time upto (k1+1)*(k2+1) options ((k+1) because we can also do nothing)
-        (we don't have to increase the bigger number or decrease smaller number)
-    We don't actually search all of k1+1 and k2+1 numbers, we cleaverly cutoff
-    search space, see `_modifications` for details.
-    
-    def min_sqrd(i):
-        if i==n: return 0
-        if in cache: return cache[(i, k1, k2)]
-        min_sum = min(
-            (new_n1-new_n2)**2 + min_sqrd(i+1,new_k1, new_k2) 
-            for new_n1, new_n2, new_k1, new_k2 in options(n1, n2, k1, k2) 
-        )
-        cache[(i, k1, k2)] = min_sum
 
-T- O(n^(k1*k2))
-M- O(n * k1 * k2)    
+Logic, squared error is worst for higher values diff = 1, sqrd dist 1, diff=3, sqrd_dist=9
+- compute abs(diff) and push them into a heap
+- ki = k1+k2
+
+k = (k1+k2)
+T- O(n*k))
+M- O(n)
+
+
+next_max_dist not None
+-----------------------
+4, 4, 4, 4, 2, 1
+num_eql_dists = 4
+next_max_dist = 2
+k=3, k=4, k=8, k=12
+
+[
+k=3: k < num_eql_dists:
+-> insert k, max_dist-1 and num_eql_dists-k, max_dist
+
+k=4: k == num_eql_dists
+    -> insert k, max_dist-1 and num_eql_dists-k, max_dist
+]
+k=8: k > num_eql_dists:
+    max_redn = k // num_eql_dists = 2
+    new_max_dist = max(next_max_dist, max_dist-max_redn)
+    new_max_dist = max(2, 4-2)= 2
+    insert num_eql_dists of value new_max_dist
+k=12: k > num_eql_dists:
+    max_redn = k // num_eql_dists = 3
+    new_max_dist = max(next_max_dist, max_dist-max_redn)
+    new_max_dist = max(2, 4-3) = 2
+    insert num_eql_dists of value new_max_dist
+
+4, 4, 4, 4
+num_eql_dists = 4
+next_max_dist = None
+k=2, k=4, k=7, k=8
+
+next_max_dist is None
+---------------------
+max_redn = k//num_eql_dists
+rem_reducible = k%num_eql_dists
+num_eql_dists - rem_reducible => max_dist - max_redn
+rem_reducible = max_dist - max_redn - 1
 """
 class Solution:
     def minSumSquareDiff(self, nums1: List[int], nums2: List[int], k1: int, k2: int) -> int:
@@ -28,121 +57,36 @@ class Solution:
 
     
 def min_sum_sqrd(nums1, nums2, k1, k2):
-    cache = [[[None]*(k2+1) for _ in range(k1+1)] for _ in range(len(nums1))]
-    return _min_sum_sqrd_rec(
-        nums1=nums1, nums2=nums2, k1=k1,
-        k2=k2, i=0, cache=cache,
-    )
-
-
-def _min_sum_sqrd_rec(nums1, nums2, k1, k2, i, cache):
-    if i == len(nums1):
-        return 0
-    if cache[i][k1][k2] is not None:
-        return cache[i][k1][k2]
-    min_sqrd = min(
-        (
-            _sqrd_dist(new_n1, new_n2)
-            + _min_sum_sqrd_rec(
-                nums1, nums2, k1=new_k1, k2=new_k2,
-                i=i+1, cache=cache
-            )
-        )
-        for new_n1, new_n2, new_k1, new_k2 in _modifications(
-            n1=nums1[i], n2=nums2[i], k1=k1, k2=k2,
-        )
-    )
-    cache[i][k1][k2] = min_sqrd
-    return min_sqrd
-
-
-def _modifications(n1, n2, k1, k2):
-    """Adjacent nodes, potential modifications of these numbers.
-    
-    Based on whichever is greater, we only go in one
-    direction for each
-    n1  n2
-    ------
-    10, 15
-    4    4
-    [(10,11,12,13,14)] [(15,14,13,12,11)]
-    
-    n1  n2
-    ------
-    10, 12
-    4    4
-    [(14,13,12)] [(15,14,13,12,11)]
-    
-    In the above ex, n1 inc and n2 dec
-    Additionally we don't have to search for values where now
-    new_n1 is greater than new_n2. Equivalently n2 need not
-    decrease below n1.
-    
-    Alogirthm
-    ---------
-    if n1==n2:
-        yield (n1, n2, k1, k2, min_dist=0)
-        return
-    if n1 > n2:
-        # We reduce n1 towards n2, no point reducing beyond n2
-        min_n1 = max(n1-k1, n2)
-        search_n1_k1 = [
-            (new_n, k1-kdiff) for kdiff, new_n in enumerate(range(n1,min_n1-1, -1))
-        ] 
-        max_n2 = min(n2+k2, n1)
-        search_n2_k2 = [
-            (new_n, k2-kdiff) for kdiff, new_n in enumerate(range(n2,max_n2+1))
-        ]
-        search_space = [
-            (new_n1, new_k1, new_n2, new_k2)
-            for (new_n1, new_k1), (new_n2, new_k2) in itertools.product(
-                search_n1_k1,  search_n2_k2
-            )
-            # no point searching space where we either dec n1 or inc n2
-            # so that now new_n1 < new_n2
-            if new_n1 >= new_n2
-        ]
-    if n2 > n1:
-        same but opposite
-    """
-    if n1 == n2:
-        yield (n1, n2, k1, k2)
-    elif n1 > n2:
-        yield from _iter_new_nks(
-            big_n=n1, small_n=n2, big_k=k1, small_k=k2,
-        )
-    else:
-        # n2 > n1
-        for new_n2, new_n1, new_k2, new_k1 in _iter_new_nks(
-            big_n=n2, small_n=n1, big_k=k2, small_k=k1,
-        ):
-            yield (new_n1, new_n2, new_k1, new_k2)
-
-
-def _iter_new_nks(big_n, small_n, big_k, small_k):
-    max_small_n = min(small_n+small_k, big_n)
-    # new big vals
-    min_big_n = max(big_n-big_k, small_n)
-    search_big_nk = [
-        (new_n, big_k-kdiff) for kdiff, new_n in enumerate(
-            range(big_n, min_big_n-1, -1)
-        )
-    ]
-    # new small vals
-    search_small_nk = [
-        (new_n, small_k-kdiff) for kdiff, new_n in enumerate(
-            range(small_n, max_small_n+1)
-        )
-    ]
-    for (new_big_n, new_big_k), (new_small_n, new_small_k) in itertools.product(
-        search_big_nk,  search_small_nk
-    ):
-        # no point searching space where we either dec big_n or inc small_n
-        # so that we cross over
-        if new_big_n < new_small_n:
-            continue
-        yield (new_big_n, new_small_n, new_big_k, new_small_k) 
-
-
-def _sqrd_dist(n1, n2):
-    return (n1 - n2) ** 2
+    # max heap so negation
+    dists = [abs(n1-n2) for n1, n2 in zip(nums1, nums2)]
+    # maintains a dist to count of it
+    dist_ctr = Counter(dists)
+    k = k1+k2
+    while k > 0:
+        max_dist = max(dist_ctr)
+        num_max_dists = dist_ctr[max_dist]
+        if max_dist == 0:
+            break
+        # print(f"{k=}, {max_dist=}, {dist_ctr=}")
+        if len(dist_ctr) == 1:
+            # all dists are same
+            del dist_ctr[max_dist]
+            max_redn = k // num_max_dists
+            num_reducible_by_1 = k % num_max_dists
+            dist_ctr[max(max_dist - max_redn,0)] += num_max_dists - num_reducible_by_1
+            dist_ctr[max(max_dist - max_redn - 1,0)] += num_reducible_by_1
+            k = 0
+        else:
+            next_dist = max(d for d in dist_ctr if d != max_dist)
+            if k < num_max_dists:
+                dist_ctr[max_dist] -= k
+                dist_ctr[max_dist-1] += k
+                k = 0
+            else:
+                max_redn = k // num_max_dists
+                new_max_dist = max(next_dist, max_dist-max_redn)
+                del dist_ctr[max_dist]
+                dist_ctr[new_max_dist] += num_max_dists
+                k -= num_max_dists * (max_dist-new_max_dist)
+    # print(f"{k=}, {max_dist=}, {dist_ctr=}")
+    return sum(cnt*(dist**2) for dist, cnt in dist_ctr.items())
