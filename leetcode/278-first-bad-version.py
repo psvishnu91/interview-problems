@@ -21,16 +21,13 @@ Test
 """
 class Solution:
     def firstBadVersion(self, n: int) -> int:
-        lt = 1
-        rt = n
-        while (lt < rt):
+        lt, rt, first_bad = 0, n, n+1
+        while lt <= rt:
             mid = (lt + rt) // 2
             if isBadVersion(mid):
-                rt=mid
+                first_bad = mid
+                rt = mid - 1
             else:
-                lt=mid+1
-        # lt==rt, unit element
-        # First unit element is the first element to switch
-        return lt
-
+                lt = mid + 1
+        return first_bad
             
