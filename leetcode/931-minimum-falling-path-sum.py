@@ -2,7 +2,7 @@
 
 https://leetcode.com/problems/minimum-falling-path-sum-ii/
 
-[Time limit exceeded] Solution 1: DP T - O(N^3) 
+Solution 1: DP T - O(N^3) [Time limit exceeded]
 =================================================
 In recursive solution we look at what is the minimum value if
 I pick this row and col and proceed down. In bottoms up solution
@@ -15,7 +15,7 @@ value to reach every col in the previous besides this column.
 We touch each element in grid once, ie., O(N^2) elements and for
 each element we do O(N) operation.
 
-[Accepted] Solution 2: DP+Heap T - O(N^2 log N) 
+Solution 2: DP+Heap T - O(N^2 log N) [Accepted]
 ===================================================
 For every element grid[(row, col)]
 All we need to know is the smallest path in the prev row
@@ -47,18 +47,16 @@ def _min_path_botup(grid):
     heap_pr = None
     for r in range(nrows):
         heap_cur = []
+        if heap_pr is not None:
+            mv_pr, next_mv_pr = heapq.nsmallest(2, heap_pr)
         for c in range(ncols):
             cell = grid[r][c]
             if r == 0:
                 cur_path = cell
+            elif mv_cache[r-1][c] == mv_pr:
+                cur_path = cell + next_mv_pr
             else:
-                if mv_cache[r-1][c] == heap_pr[0]:
-                    mv_pr = heapq.heappop(heap_pr)
-                    # next min val
-                    cur_path = cell + heap_pr[0]
-                    heapq.heappush(heap_pr, mv_pr)
-                else:
-                    cur_path = cell + heap_pr[0]
+                cur_path = cell + mv_pr
             heapq.heappush(heap_cur, cur_path)
             mv_cache[r][c] = cur_path
         heap_pr = heap_cur
