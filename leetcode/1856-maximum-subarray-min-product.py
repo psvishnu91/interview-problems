@@ -5,13 +5,20 @@ https://leetcode.com/problems/maximum-subarray-min-product/description/
 You need to know that this problem is similar to the histogram problem etc. 
 
 TRICK
-In these problems, you need to keep track of which was the last element greater than or less than the element in the current index. 
+In these problems, you need to keep track of which was the last element greater
+than or less than the element in the current index. 
 You need three datastructures
 - STACK<(index, num)>
 - Two lists left and right
 
-If you want to keep track of the last number smaller than the current number the invariant you need to maintain is that the stack has the smallest element at the bottom and the largest element in the top. Additionally the current element should be the largest element, any element larger than this element should be popped out.
-Similarly if you want to keep track of the last number greater than the current number, keep the invariant that the stack has the largest element at the bottom and the smallest element on top. current number should be the smallest element, pop out elements smaller than this pop until you get to this invariant.
+If you want to keep track of the last number smaller than the current number the 
+invariant you need to maintain is that the stack has the smallest element at the
+bottom and the largest element in the top. Additionally the current element should
+be the largest element, any element larger than this element should be popped out.
+Similarly if you want to keep track of the last number greater than the current
+number, keep the invariant that the stack has the largest element at the bottom
+and the smallest element on top. current number should be the smallest element,
+pop out elements smaller than this pop until you get to this invariant.
 
 You have to do this twice, once populating the left list and once for the right list.
 """
