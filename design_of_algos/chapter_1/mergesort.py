@@ -28,12 +28,11 @@ def _parse_input(argv: List[str]) -> List[int]:
 
 
 def merge_sort(unsorted: List[int]) -> List[int]:
-    """Wrapper which returns a sorted copy.
-    """
+    """Wrapper which returns a sorted copy."""
     # Create a copy of the list which will be sorted inplace
     tosort_copy = unsorted.copy()
     n = len(tosort_copy)
-    if n <=1:
+    if n <= 1:
         return tosort_copy
     # For merge sort we need second list to perform the merge
     # Create one list ahead of time and reuse in recursion
@@ -81,18 +80,19 @@ def _merge_subroutine(lst, start, mid, end, tmp_list):
             k += 1
     while i < mid:
         tmp_list[k] = lst[i]
-        i += 1; k += 1
+        i += 1
+        k += 1
     while j < end:
         tmp_list[j] = lst[j]
-        j += 1; k += 1
+        j += 1
+        k += 1
     for i in range(start, end):
         lst[i] = tmp_list[i]
     log.debug(f"Merge subroutine done: \t{lst[start:end]}")
-    
 
 
 if __name__ == "__main__":
-    input_list  = _parse_input(sys.argv)
+    input_list = _parse_input(sys.argv)
     sorted_list = merge_sort(input_list)
     log.info("Input list:\t{}".format(" ".join(map(str, input_list))))
     log.info("Sorted list:\t{}".format(" ".join(map(str, sorted_list))))

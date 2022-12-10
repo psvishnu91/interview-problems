@@ -3,16 +3,18 @@
 https://leetcode.com/problems/trapping-rain-water/
 
 - For each element we want to know max ht from left
-    mx height from rt. Water stored here is 
+    mx height from rt. Water stored here is
     max(min(lt_mx[i], rt_mx[i])-hts[i], 0).
 - We do one pass rt to left to keep track of max ht so far.
 - We keep running max lt to right and keep adding water
     trapped using above formula as we go lt to right.
 """
 
+
 class Solution:
     def trap(self, height: List[int]) -> int:
         return _trap(hts=height)
+
 
 def _trap(hts: list[int]) -> int:
     # cumulative max height from right end
@@ -31,8 +33,7 @@ def _build_rt_max_hts(hts):
     n = len(hts)
     window = [None] * n
     mx_ht = 0
-    for i in range(n-1, -1, -1):
+    for i in range(n - 1, -1, -1):
         mx_ht = max(hts[i], mx_ht)
         window[i] = mx_ht
     return window
-        

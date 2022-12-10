@@ -2,10 +2,12 @@
 
 https://leetcode.com/problems/binary-search/description/
 """
+
+
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         n = len(nums)
-        lt, rt = 0, n-1
+        lt, rt = 0, n - 1
         while lt <= rt:
             mid = (lt + rt) // 2
             if nums[mid] == target:

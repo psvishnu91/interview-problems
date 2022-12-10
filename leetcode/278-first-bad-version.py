@@ -19,9 +19,11 @@ Test
 # B
 # l=0,rt=0,m=0
 """
+
+
 class Solution:
     def firstBadVersion(self, n: int) -> int:
-        lt, rt, first_bad = 0, n, n+1
+        lt, rt, first_bad = 0, n, n + 1
         while lt <= rt:
             mid = (lt + rt) // 2
             if isBadVersion(mid):
@@ -30,4 +32,3 @@ class Solution:
             else:
                 lt = mid + 1
         return first_bad
-            

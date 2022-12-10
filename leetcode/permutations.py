@@ -1,4 +1,3 @@
-
 """
 https://leetcode.com/problems/permutations/
 
@@ -12,10 +11,10 @@ dfs(cur, pos, seen_ixes)
 # Test dfs
 nums = [1, 2, 3]
 n = 3
-cur      num       pos          seen              output       
+cur      num       pos          seen              output
 -------------------------------------------------------------
 [N,N,N]             0              []               []
-[1,N,N]   1         1              [1]              []          
+[1,N,N]   1         1              [1]              []
 [1,2,N]   2         2              [1,2]            []
 [1,2,3]   3         3              [1,2,3]          []
 [1,2,3]   -         -              [1,2,3]          [[1,2,3]]
@@ -24,6 +23,8 @@ cur      num       pos          seen              output
 
 
 """
+
+
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         return permute(nums)
@@ -34,7 +35,7 @@ def permute(nums):
     if n == 1:
         return [nums]
     output = []
-    perm_dfs(nums=nums, cur=[None]*n, pos=0, seen=set(), output=output)
+    perm_dfs(nums=nums, cur=[None] * n, pos=0, seen=set(), output=output)
     return output
 
 
@@ -48,5 +49,5 @@ def perm_dfs(nums, cur, pos, seen, output):
             continue
         seen.add(num)
         cur[pos] = num
-        perm_dfs(nums=nums, cur=cur, pos=pos+1, seen=seen, output=output)
+        perm_dfs(nums=nums, cur=cur, pos=pos + 1, seen=seen, output=output)
         seen.discard(num)

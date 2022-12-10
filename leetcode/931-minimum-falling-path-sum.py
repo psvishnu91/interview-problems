@@ -31,19 +31,23 @@ else:
     path[row, col] = heap_pr.peek() + grid[row, col]
     heap_pr.push(mv_pr)
 """
+
+
 class Solution:
     def minFallingPathSum(self, grid: List[List[int]]) -> int:
         return _min_path_botup(grid)
 
+
 #######################################################################
 # Solution 2: Bottom up DP + Heap
-# 
+#
 # Accepted
 #######################################################################
 
+
 def _min_path_botup(grid):
     nrows, ncols = len(grid), len(grid[0])
-    mv_cache = [[None]*ncols for _ in range(nrows)]
+    mv_cache = [[None] * ncols for _ in range(nrows)]
     heap_pr = None
     for r in range(nrows):
         heap_cur = []
@@ -53,7 +57,7 @@ def _min_path_botup(grid):
             cell = grid[r][c]
             if r == 0:
                 cur_path = cell
-            elif mv_cache[r-1][c] == mv_pr:
+            elif mv_cache[r - 1][c] == mv_pr:
                 cur_path = cell + next_mv_pr
             else:
                 cur_path = cell + mv_pr
@@ -69,29 +73,29 @@ def _min_path_botup(grid):
 # Times out in python
 #######################################################################
 
+
 def min_fall_path(grid):
-    n,m=len(grid), len(grid[0])
-    if n==m==1:
+    n, m = len(grid), len(grid[0])
+    if n == m == 1:
         return grid[0][0]
-    cache = [[None]*m for _ in range(n)]
+    cache = [[None] * m for _ in range(n)]
     return min(
-        _min_fall_path_rec(grid, row=0, col=col, cache=cache)
-        for col in range(m)
+        _min_fall_path_rec(grid, row=0, col=col, cache=cache) for col in range(m)
     )
 
 
 def _min_fall_path_rec(grid, row, col, cache):
-    if row==len(grid):
+    if row == len(grid):
         return 0
     if cache[row][col] is not None:
         return cache[row][col]
-    min_val_nxt = float('inf')
+    min_val_nxt = float("inf")
     for nc in range(len(grid[0])):
         if nc == col:
             continue
-        min_val_nxt =  min(
+        min_val_nxt = min(
             min_val_nxt,
-            _min_fall_path_rec(grid=grid, row=row+1, col=nc, cache=cache),
+            _min_fall_path_rec(grid=grid, row=row + 1, col=nc, cache=cache),
         )
     cell_min = grid[row][col] + min_val_nxt
     cache[row][col] = cell_min

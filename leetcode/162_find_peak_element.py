@@ -28,18 +28,19 @@ lt rt mid a[lt] a[rt] a[mid] _prev _next
 
 """
 
+
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
         return find_peak(a=nums)
 
-    
+
 def find_peak(a: List[int]) -> int:
     n = len(a)
-    lt, rt = 0, n-1
+    lt, rt = 0, n - 1
     while lt <= rt:
         mid = (lt + rt) // 2
-        _prev = a[mid-1] if mid > 0 else -float('inf')
-        _next = a[mid+1] if mid <= n-2 else -float('inf')
+        _prev = a[mid - 1] if mid > 0 else -float("inf")
+        _next = a[mid + 1] if mid <= n - 2 else -float("inf")
         if _prev > a[mid]:
             rt = mid - 1
         elif _next > a[mid]:

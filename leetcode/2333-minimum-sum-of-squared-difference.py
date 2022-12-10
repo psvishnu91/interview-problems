@@ -14,12 +14,12 @@ Datastructure: Binary Search Tree (TreeMap, Python - sortedcontainers.SortedDict
 
 Scenarios:
 ----------
-1. k is exhaustible 
+1. k is exhaustible
 - This happens if there is only one distance (max_dist) or k < num(max_dist)
 - In either case compute max_redn = k // num(max_dist), reduce the
     all max values by this number (this can be 0 if k<num(max_dist)).
 - compute remainder rem = k % num(max_dist), further reduce rem number
-    of max_dists by 1 
+    of max_dists by 1
 
 2. k is not exhaustible
 - This happens when either there is another distance (next_max_dist), or
@@ -42,22 +42,24 @@ import sortedcontainers
 
 
 class Solution:
-    def minSumSquareDiff(self, nums1: List[int], nums2: List[int], k1: int, k2: int) -> int:
+    def minSumSquareDiff(
+        self, nums1: List[int], nums2: List[int], k1: int, k2: int
+    ) -> int:
         return min_sum_sqrd(nums1, nums2, k1, k2)
 
-    
+
 def min_sum_sqrd(nums1, nums2, k1, k2):
-    dists = [abs(n1-n2) for n1, n2 in zip(nums1, nums2)]
+    dists = [abs(n1 - n2) for n1, n2 in zip(nums1, nums2)]
     # maintains a sorted map of dist to count of distance
     dists_ctr = sortedcontainers.SortedDict(Counter(dists))
-    k = k1+k2
+    k = k1 + k2
     while k > 0:
         max_dist, num_max_dists = dists_ctr.popitem(index=-1)
         if max_dist == 0:
             break
         if not dists_ctr or k < num_max_dists:
-            # 1. k is exhaustible 
-            # In this scenario we exhaust k to 0 
+            # 1. k is exhaustible
+            # In this scenario we exhaust k to 0
             #
             # 1) all dists are same
             # k - 11, num_mx_dists=4, max_redn=2, num_reduc_by_1=3
@@ -66,13 +68,15 @@ def min_sum_sqrd(nums1, nums2, k1, k2):
             max_redn = k // num_max_dists
             num_reducible_by_1 = k % num_max_dists
             lrg_dist = max(max_dist - max_redn, 0)
-            sml_dist = max(lrg_dist-1, 0)
-            dists_ctr[lrg_dist] = dists_ctr.get(lrg_dist, 0) + num_max_dists - num_reducible_by_1
+            sml_dist = max(lrg_dist - 1, 0)
+            dists_ctr[lrg_dist] = (
+                dists_ctr.get(lrg_dist, 0) + num_max_dists - num_reducible_by_1
+            )
             dists_ctr[sml_dist] = dists_ctr.get(sml_dist, 0) + num_reducible_by_1
             k = 0
         else:
             # 2. k is not exhaustible in this iteration
-            # 
+            #
             # In this case we move all max_dist to the next largest max_dist. If
             # not enough k, we move as much as possible. We move all `max_dist`
             # by the same amount. After this step k is guaranteed to be smaller
@@ -80,7 +84,7 @@ def min_sum_sqrd(nums1, nums2, k1, k2):
             # if clause in the next iteration.
             next_dist, _ = dists_ctr.peekitem(index=-1)
             max_redn = k // num_max_dists
-            new_max_dist = max(next_dist, max_dist-max_redn)
-            k -= num_max_dists * (max_dist-new_max_dist)
+            new_max_dist = max(next_dist, max_dist - max_redn)
+            k -= num_max_dists * (max_dist - new_max_dist)
             dists_ctr[new_max_dist] = dists_ctr.get(new_max_dist, 0) + num_max_dists
-    return sum(cnt*(dist**2) for dist, cnt in dists_ctr.items())
+    return sum(cnt * (dist**2) for dist, cnt in dists_ctr.items())

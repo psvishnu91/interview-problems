@@ -19,10 +19,12 @@ class Result:
     max_dm: int
     max_depth: int
 
+
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         return _dm_of_bt_recusion(root=root)
-    
+
+
 def _dm_of_bt_recusion(root: Optional[TreeNode]) -> int:
     if root is None:
         return 0
@@ -35,9 +37,9 @@ def _dm_of_bt_helper(node: TreeNode) -> Result:
     lt_rec = _dm_of_bt_helper(node.left)
     rt_rec = _dm_of_bt_helper(node.right)
     return Result(
-        max_depth=(1+max(lt_rec.max_depth, rt_rec.max_depth)),
+        max_depth=(1 + max(lt_rec.max_depth, rt_rec.max_depth)),
         max_dm=max(
-            (2+ lt_rec.max_depth + rt_rec.max_depth),
+            (2 + lt_rec.max_depth + rt_rec.max_depth),
             lt_rec.max_dm,
             rt_rec.max_dm,
         ),

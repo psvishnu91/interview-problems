@@ -33,7 +33,7 @@ def max_path_sum(node: Optional[TreeNode]) -> Result:
         return Result(max_through_path=0, max_path=-1_000_000)
     lt_rec = max_path_sum(node=node.left)
     rt_rec = max_path_sum(node=node.right)
-    max_through_path=(
+    max_through_path = (
         node.val
         # zero is to indicate we are simply beginning at this node
         # we can also have a single node path
@@ -46,5 +46,5 @@ def max_path_sum(node: Optional[TreeNode]) -> Result:
             node.val + lt_rec.max_through_path + rt_rec.max_through_path,
             lt_rec.max_path,
             rt_rec.max_path,
-        )
+        ),
     )

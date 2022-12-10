@@ -29,7 +29,6 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("partition")
 
 
-
 def _parse_int_array(lst: List[str]) -> List[int]:
     return [int(n) for n in lst[1:]]
 
@@ -46,7 +45,7 @@ def partition_inplace(lst: List[int], beg: int = 0, end: Optional[int] = None) -
     pvt = lst[beg]
     # Points to the first number greater than the pivot
     edge = beg
-    for i in range(beg+1, end+1):
+    for i in range(beg + 1, end + 1):
         if lst[i] <= pvt:
             edge += 1
             swap(lst, edge, i)
@@ -59,12 +58,12 @@ def swap(lst: List[int], i: int, j: int) -> None:
 
 
 if __name__ == "__main__":
-    # Sample inputs: 
+    # Sample inputs:
     # 4 1 5 0 6 2 3 8
     # 4 1 2 3
     # 4 5 6 7 8 9
     #  4 1 2 5 0 3 9 -1 -2
-    input_list  = _parse_int_array(lst=sys.argv)
+    input_list = _parse_int_array(lst=sys.argv)
     output_list = input_list.copy()
     partition_inplace(output_list)
     log.info("Input list:\t{}".format(" ".join(map(str, input_list))))

@@ -22,9 +22,8 @@ def quicksort_inplace(lst, beg=0, end=None) -> None:
         return
     swap_random_pivot_to_beg(lst, beg, end)
     pivot_ix = partition.partition_inplace(lst=lst, beg=beg, end=end)
-    quicksort_inplace(lst, beg=beg, end=pivot_ix-1)
-    quicksort_inplace(lst, beg=pivot_ix+1, end=end)
-
+    quicksort_inplace(lst, beg=beg, end=pivot_ix - 1)
+    quicksort_inplace(lst, beg=pivot_ix + 1, end=end)
 
 
 def swap_random_pivot_to_beg(lst, beg, end):
@@ -35,12 +34,12 @@ def swap_random_pivot_to_beg(lst, beg, end):
 
 
 if __name__ == "__main__":
-    # Sample inputs: 
+    # Sample inputs:
     # 4 1 5 0 6 2 3 8
     # 4 1 2 3
     # 4 5 6 7 8 9
     #  4 1 2 5 0 3 9 -1 -2
-    input_list  = utils.parse_input_array()
+    input_list = utils.parse_input_array()
     output_list = input_list.copy()
     quicksort_inplace(lst=output_list)
     log = utils.get_logger("Quicksort")

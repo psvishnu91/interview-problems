@@ -23,17 +23,19 @@ Datastructures: Stack, two lists left and right
     them. Bigger numbers to the left of it don't help the number
     to the right to build a bigger hist.
 - iterate from rt to lt maintaining the same invariant in the stack
-- iterate over nums, lt, rt and compute max size histogram as 
+- iterate over nums, lt, rt and compute max size histogram as
     (rt-lt+1) * nums[i]. This is because nums[i] is the smallest
     height in this bin. We keep track of max rect area as we compute this.
 """
 import queue
 import dataclasses
 
+
 @dataclasses.dataclass(frozen=True)
 class StackItem:
     ix: int
     ht: int
+
 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
@@ -43,15 +45,17 @@ class Solution:
 ########################
 # Refactored Stack
 ########################
-    
+
+
 def largest_rect_area_rfctd(heights: list[int]) -> int:
     n = len(heights)
     lt = _build_max_window(heights=heights, reversed=False)
     rt = _build_max_window(heights=heights, reversed=True)
     max_hist = heights[0]
     for l, r, ht in zip(lt, rt, heights):
-        max_hist = max(max_hist, ht * (r-l-1))
+        max_hist = max(max_hist, ht * (r - l - 1))
     return max_hist
+
 
 def _build_max_window(heights, reversed=False):
     """Builds a window to lt or right depending on reversed
@@ -62,10 +66,10 @@ def _build_max_window(heights, reversed=False):
     window = [None] * n
     if not reversed:
         iterand = range(n)
-        stk = queue.deque([StackItem(ix=-1, ht=-float('inf'))])
+        stk = queue.deque([StackItem(ix=-1, ht=-float("inf"))])
     else:
-        iterand = range(n-1, -1, -1) 
-        stk = queue.deque([StackItem(ix=n, ht=-float('inf'))])
+        iterand = range(n - 1, -1, -1)
+        stk = queue.deque([StackItem(ix=n, ht=-float("inf"))])
     for i in iterand:
         ht = heights[i]
         while stk[-1].ht >= ht:
@@ -74,22 +78,24 @@ def _build_max_window(heights, reversed=False):
         stk.append(StackItem(ix=i, ht=ht))
     return window
 
+
 ##############
 # Stack unrefactored
 ################
 
+
 def largest_rect_area(heights: list[int]) -> int:
     n = len(heights)
-    lt, rt = [None]*n, [None]*n
-    stk = queue.deque([StackItem(ix=-1, ht=-float('inf'))])
+    lt, rt = [None] * n, [None] * n
+    stk = queue.deque([StackItem(ix=-1, ht=-float("inf"))])
     for i, ht in enumerate(heights):
         while stk[-1].ht >= ht:
             stk.pop()
         lt[i] = stk[-1].ix + 1
         stk.append(StackItem(ix=i, ht=ht))
     stk.clear()
-    stk.append(StackItem(ix=n, ht=-float('inf')))
-    for i in range(n-1,-1,-1):
+    stk.append(StackItem(ix=n, ht=-float("inf")))
+    for i in range(n - 1, -1, -1):
         ht = heights[i]
         while stk[-1].ht >= ht:
             stk.pop()
@@ -97,5 +103,5 @@ def largest_rect_area(heights: list[int]) -> int:
         stk.append(StackItem(ix=i, ht=ht))
     max_hist = heights[0]
     for l, r, ht in zip(lt, rt, heights):
-        max_hist = max(max_hist, ht * (r-l+1))
+        max_hist = max(max_hist, ht * (r - l + 1))
     return max_hist

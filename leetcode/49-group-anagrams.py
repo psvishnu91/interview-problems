@@ -32,7 +32,7 @@ Sort the entire array, with the indices - O(N log N)
 Iterate over the array, keep track of curword, create an output list with
 index and with same curword.
 
-T - O(N log N + N k log k) 
+T - O(N log N + N k log k)
 S - O(N)
 
 
@@ -48,7 +48,7 @@ sorted_strs = ["aet", "aet", "ant", "aet", "ant", "abt"]
                 0       1      2      3      4      5
 sorted_strs_ixes = [("abt", 5), ("aet", 0), ("aet", 1), ("aet", 3), ("ant", 2), ("ant", 4)]
 
-ix     word cur_word     anagrams   anagrams_list        
+ix     word cur_word     anagrams   anagrams_list
 ===================================================
 5      abt    abt         [bat]       []
 0      aet    aet         [eat]       [[bat]]
@@ -62,6 +62,7 @@ Multiple empty strings - consider anagrams?
 No anagrams
 All anagrams
 """
+
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
@@ -95,6 +96,3 @@ def group_anagrams_sortmap(strs):
     for w in strs:
         sorted_to_words[tuple(sorted(w))].append(w)
     return sorted_to_words.values()
-    
-    
-    

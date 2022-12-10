@@ -26,7 +26,7 @@ struct node
 template <typename T>
 node<T>* createNode(T a)
 {
-	node<T>* t = new node<T>;	
+	node<T>* t = new node<T>;
 	t->data = a;
 	t->l = NULL;
 	t->r = NULL;
@@ -101,10 +101,10 @@ void printVerticalLevel(node<T> * t)
 {
 	vector < list <node<T>*> > levelListsRight;
 	vector < list <node<T>*> > levelListsLeft;
-	
+
 	printVerticalLevel(t, levelListsLeft, levelListsRight, 0);
 
-	
+
 	for(int i = (int)levelListsLeft.size()-1; i>=0 ; i--)
 	{
 		for( auto it = levelListsLeft[i].begin(); it != levelListsLeft[i].end(); it++)
@@ -176,20 +176,19 @@ void main()
 {
 	//Build tree
 	node<int> *t = buildTree<int>();
-	
+
 	// Print the tree each horizontal level in a line
 	cout<<"Printing horizontal Level : \n";
 	printHorizontalLevel(t);
-	
-	
+
+
 	// Print the tree each vertical level in a line
 	cout<<"Printing Vertical Level : \n";
 	printVerticalLevel(t);
-	
+
 	char c;
 	cout<<"Enter any character : ";
 	cin>>c;
 }
 
 //-----------------------------------------------------------------------
-

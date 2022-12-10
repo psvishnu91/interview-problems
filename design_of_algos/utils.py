@@ -19,7 +19,7 @@ def parse_int_array(lst: List[str]) -> List[int]:
     """Parse sys.argv to a list of int.
 
     Sample input::
-        
+
         python x.py 1 2 3 4
 
         import sys

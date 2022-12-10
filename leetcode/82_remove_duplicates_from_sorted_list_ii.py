@@ -18,11 +18,11 @@ prev cur cur.next prev.val cur.val cur.next.val
 -1   0     1        None       1        2
  0   1     2        1          2        3
  1   2     3        2          3        3
- 1   3     4        2          3        4     
+ 1   3     4        2          3        4
  1   4     5        2          4        4
  1   5     None     2          4        -
- 
- 
+
+
 # Edge case
 [done] None
 [done] Unit array
@@ -58,7 +58,7 @@ class Solution:
                 prev = cur
                 cur = cur.next
             else:
-                while cur.next and cur.val==cur.next.val:
+                while cur.next and cur.val == cur.next.val:
                     cur = cur.next
                 cur = cur.next
                 prev.next = cur

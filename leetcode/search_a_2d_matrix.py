@@ -1,4 +1,3 @@
-  
 """74. Search a 2D Matrix
 
 https://leetcode.com/problems/search-a-2d-matrix/
@@ -36,19 +35,18 @@ lt rt mid mat[mid][0]   last_lower
 ====================================
 0   3   1   4               1
 2   3   2   6               2
-3   3   3   9               
+3   3   3   9
 3   2
 
 tgt=2
 lt rt mid mat[mid][0]   last_lower
 ==================================
-0   3   1   4               
+0   3   1   4
 0   0   0   1               0
-1   0   
+1   0
 
 Then simple binary search for rest
 """
-
 
 
 class Solution:
@@ -59,7 +57,7 @@ class Solution:
 def _search_mat(mat, tgt) -> bool:
     row = _find_lower_row(mat=mat, tgt=tgt)
     return _bin_search(mat=mat, tgt=tgt, row=row)
-    
+
 
 def _find_lower_row(mat, tgt) -> int:
     lt, rt = 0, len(mat) - 1
