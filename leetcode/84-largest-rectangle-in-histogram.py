@@ -4,16 +4,25 @@ https://leetcode.com/problems/largest-rectangle-in-histogram/
 
 Intuition
 ---------
-Datastructures: Stack, two lists left and right
-    left[i] contains the last element to the left
-    of the nums[i] that is >= nums[i], in other words
-    the lt[i-1] < nums[i]
-    |||ly, right[i] contains the last element to the rt
-    of the nums[i] that is >= nums[i], in other words
-    the rt[i+1] < nums[i]
 
-- [-inf] + [nums] + [-inf], so that min val of lt[i] is 0
-    and max val of rt[i] is n-1
+I want to build two arrays left and right which such that
+left[i] and right[i] the left_most and the right_most indices
+that are at least of height nums[i]. This is the window up to
+which i can expand with the current height.
+
+Datastructures: one Stack and two lists left and right
+
+    * left[i] contains the index of the nearest element to the left
+    of the nums[i] that is < nums[i]. So all the numbers
+    nums[lt[i]+1:i+1] are of size at least nums[i].
+    
+    * |||ly, right[i] contains the nearest element to the rt
+    of the nums[i] that is < nums[i], in other words
+    all the numbers between nums[i:rt[i]] are at least
+    nums[i].
+
+- [-inf] + [nums] + [-inf], so that min val of lt[i] is -1
+    and max val of rt[i] is n
 - iterate over nums lt to right and build lt. Use a stack
     the stack will have invariant smallest num seen so far
     at the bottom and largest num at top, we remove all stack
@@ -24,12 +33,11 @@ Datastructures: Stack, two lists left and right
     to the right to build a bigger hist.
 - iterate from rt to lt maintaining the same invariant in the stack
 - iterate over nums, lt, rt and compute max size histogram as
-    (rt-lt+1) * nums[i]. This is because nums[i] is the smallest
+    (rt-lt-1) * nums[i]. This is because nums[i] is the smallest
     height in this bin. We keep track of max rect area as we compute this.
 """
-import queue
 import dataclasses
-
+from collections import deque
 
 @dataclasses.dataclass(frozen=True)
 class StackItem:
@@ -66,10 +74,10 @@ def _build_max_window(heights, reversed=False):
     window = [None] * n
     if not reversed:
         iterand = range(n)
-        stk = queue.deque([StackItem(ix=-1, ht=-float("inf"))])
+        stk = deque([StackItem(ix=-1, ht=-float("inf"))])
     else:
         iterand = range(n - 1, -1, -1)
-        stk = queue.deque([StackItem(ix=n, ht=-float("inf"))])
+        stk = deque([StackItem(ix=n, ht=-float("inf"))])
     for i in iterand:
         ht = heights[i]
         while stk[-1].ht >= ht:
@@ -87,7 +95,7 @@ def _build_max_window(heights, reversed=False):
 def largest_rect_area(heights: list[int]) -> int:
     n = len(heights)
     lt, rt = [None] * n, [None] * n
-    stk = queue.deque([StackItem(ix=-1, ht=-float("inf"))])
+    stk = dequedeque([StackItem(ix=-1, ht=-float("inf"))])
     for i, ht in enumerate(heights):
         while stk[-1].ht >= ht:
             stk.pop()
