@@ -170,7 +170,6 @@ def _newton_update_helper(dx, dy, dxx, dxy, dyy, lr):
         "y_delta": lr * k * (dxx * dy - dxy * dx),
     }
 
-
 def _grad_update_helper(dx, dy, lr):
     return {"x_delta": -lr * dx, "y_delta": -lr * dy}
 
