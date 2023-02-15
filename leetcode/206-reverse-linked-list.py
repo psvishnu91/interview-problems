@@ -5,6 +5,11 @@ https://leetcode.com/problems/reverse-linked-list/
 Solution:
 ---------
 3 pointers, lt, rt, rt_nxt
+
+Keep three pointers lt, rt, rt_nxt. Stop when rt is null
+and return lt. Move over values and set rt.next to lt.
+*Gotcha:* head.next needs to be None as only rt.next is
+updated and the first node is never set to rt.
 """
 # Definition for singly-linked list.
 # class ListNode:
