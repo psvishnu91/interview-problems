@@ -4,7 +4,7 @@ https://leetcode.com/problems/non-overlapping-intervals/
 
 Solution, sort and iterate left to right
 -----------------------------------------
-T-O(nlogn) S-O(n) for sorting
+T-O(nlogn) S-O(n) for sorted output array
 
 Main idea: Once sorted, if the next intval st >= prev_end
 we are all good. We don't have to remove anything, we just move
