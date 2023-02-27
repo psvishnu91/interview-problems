@@ -4,7 +4,7 @@ https://leetcode.com/problems/insert-into-a-binary-search-tree/
 
 SIMPLE SOLUTION - Simpler solution
 ==================================
-T - O(log n)
+T - O(log n) - O(H)
 You can always find a leaf where this node can go.
 
 * If the val is smaller than root.val go left otherwise go right.
@@ -13,9 +13,10 @@ You can always find a leaf where this node can go.
 * Termination: similarly if val is greater than root.val but root.right
     is None, add node to right don't recurse
 
-COMPLEX SOLUTION - Faster solution
-==================================
-T - O(log n)
+COMPLEX SOLUTION - Faster on leetcode
+=====================================
+T - O(log n) - O(H)
+S - O(log n) - O(H)
 
 Invariant we want to maintain is that all the elements to the
 left are smaller than the new_node=Node(val) and all the elements
