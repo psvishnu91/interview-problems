@@ -2,9 +2,20 @@
 
 https://leetcode.com/problems/insert-into-a-binary-search-tree/
 
-SOLUTION
-========
-T - O((log n)^2)
+SIMPLE SOLUTION - Simpler solution
+==================================
+T - O(log n)
+You can always find a leaf where this node can go.
+
+* If the val is smaller than root.val go left otherwise go right.
+* Termination: If val is smaller than root.val but root.left is None,
+    add the node to left don't recurse.
+* Termination: similarly if val is greater than root.val but root.right
+    is None, add node to right don't recurse
+
+COMPLEX SOLUTION - Faster solution
+==================================
+T - O(log n)
 
 Invariant we want to maintain is that all the elements to the
 left are smaller than the new_node=Node(val) and all the elements
@@ -39,9 +50,28 @@ dicts so that we don't search repeatedly.
 
 class Solution:
     def insertIntoBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
-        return insert_bst(root=root, val=val)
+        return insert_bst_simple(root=root, val=val)
 
-def insert_bst(root, val):
+#################################################################################
+
+def insert_bst_simple(root, val):
+    if not root:
+        return TreeNode(val)
+    if val < root.val and root.left is None:
+        root.left = TreeNode(val)
+    elif val > root.val and root.right is None:
+        root.right = TreeNode(val)
+    elif val < root.val:
+        insert_bst_simple(root=root.left, val=val)
+    elif val > root.val:
+        insert_bst_simple(root=root.right, val=val)
+    else:
+        raise ValueError("Numbers are not unique")
+    return root
+
+#################################################################################
+
+def insert_bst_complex(root, val):
     if not root:
         return TreeNode(val)
     return insert_bst_rec(parent=None, root=root, val=val, lt_cache={}, rt_cache={})
