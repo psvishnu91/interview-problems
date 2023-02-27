@@ -5,7 +5,7 @@ k-th order statistic is the kth smallest number.
 10, 8, 2, 4 -> 3rd order statistic is 8. First order statistic is 2.
 
 Using reduction, we can sort the array in O(n log n) by sorting
-and returning the (k+1)th element. However this algorithm is O(n).
+and returning the (k-1)th element. However this algorithm is O(n).
 
 Sample usage::
 
