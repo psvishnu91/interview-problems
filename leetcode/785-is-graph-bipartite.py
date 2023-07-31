@@ -40,6 +40,7 @@ def _dfs(node, seta, setb, graph):
 Solution 3: Graph colouring
 """
 
+
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
         # graph coloring
@@ -51,6 +52,7 @@ class Solution:
                 return False
         else:
             return True
+
 
 def _dfs(node, graph, color):
     color[node] = 0
