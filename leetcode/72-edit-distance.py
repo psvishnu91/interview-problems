@@ -3,7 +3,7 @@
 https://leetcode.com/problems/edit-distance/
 
 
-Solution Bot-down DP | T - S - O(MN)
+Solution top-down DP | T - S - O(MN)
 ------------------------------------
 Scenarios
 1. termination if p1 or p2 is at the end, then the other
